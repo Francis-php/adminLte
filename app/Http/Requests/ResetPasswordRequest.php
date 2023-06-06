@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use App\Rules\PasswordCheck;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class ResetPasswordRequest extends FormRequest
 {
@@ -21,10 +24,26 @@ class ResetPasswordRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        $user = User::where('email', $this->email)->first();
+
         return [
             'token' => 'required',
-            'email' => 'required|email|exists:users',
-            'password' => 'required|min:8|confirmed',
+            'email' => [
+                'required',
+                'email',
+                'exists:users',
+                ],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+                (new PasswordCheck($user)),
+            ],
         ];
     }
 }

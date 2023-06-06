@@ -29,14 +29,14 @@ class EditUserRequest extends FormRequest
     {
         $user= $this->route('user');
         return [
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email'=> [
                 'required',
                 'email',
                 Rule::unique('users')->ignore($user->id),
                 ],
-            'type'=> 'required',
-            'image'=> 'image|mimes:jpeg,png,jpg|max:2048',
+            'gender' => 'required',
         ];
     }
 }

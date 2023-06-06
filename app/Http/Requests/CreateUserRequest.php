@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PasswordCheck;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class CreateUserRequest extends FormRequest
 {
@@ -23,11 +25,20 @@ class CreateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required',
-            'email'=> 'required|email|unique:users,email',
-            'password'=>'required|min:8',
-            'type'=> 'required'
+        return ['first_name' => 'required', 'last_name' => 'required', 'type' => 'required','gender' => 'required',
+            'email'=> [
+                'required',
+                'email',
+                'unique:users,email'
+            ],
+            'password' => [
+                'required',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+                (new PasswordCheck($this->all())),],
         ];
     }
 }

@@ -28,7 +28,7 @@ class UserObserver
      */
     public function deleted(User $user): void
     {
-        Storage::delete(public_path('images/' . $user->image));
+        Storage::disk('public')->delete('images/' . $user->image);
     }
 
     /**

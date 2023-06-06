@@ -1,0 +1,15 @@
+.dt-buttons,
+.dataTables_length,
+.dataTables_filter{
+    display: inline-flex;
+    align-items: center;
+
+}
+.dataTables_filter{
+    position: absolute;
+    right: 1%;
+}
+
+.dataTables_length {
+    padding-right: 1%;
+}

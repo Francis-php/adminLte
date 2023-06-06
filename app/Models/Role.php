@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -11,10 +12,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Role extends Model
 {
-    protected $table='role';
 
+    use HasFactory;
+
+    protected $table='role';
     protected $fillable=[
-        'id',
         'type'
     ];
     public function users(): HasMany

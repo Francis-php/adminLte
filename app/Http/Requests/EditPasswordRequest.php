@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+
+use App\Rules\PasswordCheck;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditPasswordRequest extends FormRequest
@@ -21,10 +24,17 @@ class EditPasswordRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'oldPass' => 'current_password:',
-            'password'=> 'required|min:8|confirmed'
-            //
+        return ['oldPass' => 'current_password:',
+            'password'=> [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+                (new PasswordCheck($this->all())),
+            ],
         ];
     }
 }

@@ -21,9 +21,6 @@ class AuthenticateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'email'=> 'required',
-            'password'=> 'required|min:8',
-        ];
+        return ['email'=> 'required', 'password'=> 'required'];
     }
 }

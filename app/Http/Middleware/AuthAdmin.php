@@ -18,11 +18,10 @@ class AuthAdmin
     public function handle(Request $request, Closure $next): Response
     {
         $user =$request->user();
+
         if($user->type===1){
             return redirect('/user');
-
         }
-
         return $next($request);
     }
 }

@@ -16,14 +16,12 @@ class ProcessEmail implements ShouldQueue
 
     private string $email;
 
-
     /**
      * Create a new job instance.
      */
     public function __construct(string $email)
     {
         $this->email= $email;
-
     }
 
     /**

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PasswordCheck;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterUserRequest extends FormRequest
 {
@@ -22,9 +24,14 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email'=> 'required|email|unique:users,email',
-            'password'=> 'required|min:8|confirmed',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => ['required', 'email', 'unique:users,email'],
+            'gender' => 'required',
+            'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols(),
+                (new PasswordCheck($this->all())),
+
+            ],
         ];
     }
 }

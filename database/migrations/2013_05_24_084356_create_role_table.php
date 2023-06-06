@@ -15,10 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
         });
-        DB::table('role')->insert([
-            ['type' => 'user'],
-            ['type' => 'admin'],
-        ]);
+
     }
 
     /**

@@ -1,3 +1,3 @@
-@extends('adminlte::page')
+@extends('layouts.user')
 
 

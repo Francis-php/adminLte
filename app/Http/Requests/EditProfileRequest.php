@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class EditProfileRequest extends FormRequest
 {
     /**
@@ -22,12 +23,11 @@ class EditProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required',
-            'email'=> 'required|email',
-            'type'=> 'required',
-            'image'=> 'image|mimes:jpeg,png,jpg|max:2048',
-            //
+        return ['first_name' => 'required', 'last_name' => 'required', 'email'=> [
+                'required',
+                'email',
+                ],
+            'gender' => 'required',
         ];
     }
 }
