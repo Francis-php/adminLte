@@ -3,16 +3,17 @@
 namespace App\Models;
 
 
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
+use Yajra\DataTables\Html\Editor\HasEvents;
 
 /**
  * @property mixed $image
@@ -71,8 +72,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Media::class,'user_id');
     }
 
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
-        $this->notify(new VerifyEmail);
+        $this->notify(new VerifyEmailNotification());
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class,'user_id');
+    }
+
+    public function bookings(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'bookings');
     }
 }

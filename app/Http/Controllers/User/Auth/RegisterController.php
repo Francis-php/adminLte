@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
@@ -28,8 +28,8 @@ class RegisterController extends Controller
     {
         $user = User::create($request->validated());
         Auth::attempt($request->validated());
-        event(new Registered($user));
 
+        event(new Registered($user));
         return redirect()->route('home')->with('success', 'Registration successful! Please check your email for verification.');
     }
 
@@ -40,7 +40,6 @@ class RegisterController extends Controller
 
     public function verify(EmailVerificationRequest $request, $id): RedirectResponse
     {
-
         $user = User::findOrFail($id);
 
         if($request->hasValidSignature()){

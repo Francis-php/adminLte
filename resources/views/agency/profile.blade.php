@@ -1,5 +1,11 @@
-@extends('layouts.user')
-
+@extends('adminlte::page')
+@section('usermenu_body')
+    <a class="btn btn-default btn-flat float-right  btn-block "
+       href="{{route('agency.profile')}}" >
+        <i class="fas fa-fw fa-user"></i>
+        Profile
+    </a>
+@endsection
 @section('content')
 
     <div class="container">
@@ -7,7 +13,7 @@
 
             <nav aria-label="breadcrumb" class="main-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('user.show')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('agency.main_page')}}">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
                 </ol>
                 @if(session('success'))
@@ -37,7 +43,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{route('update-user-picture',$user)}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{route('update-agency-picture',$user)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="mb-3">
@@ -48,7 +54,7 @@
                                     @enderror
                                 </div>
                                 <button type="submit" class="btn btn-primary">Upload</button>
-                                <button class="btn btn-danger" type="submit" formaction="{{route('delete-user-picture',$user)}}">Delete</button>
+                                <button class="btn btn-danger" type="submit" formaction="{{route('delete-agency-picture',$user)}}">Delete</button>
                             </form>
                         </div>
                     </div>
@@ -57,7 +63,7 @@
                     <div class="card mb-3">
                         <div class="card-header"><h4>Personal Information</h4></div>
                         <div class="card-body">
-                            <form action="{{route('update-user-information',$user)}}" method="POST">
+                            <form action="{{route('update-agency-information',$user)}}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="row mb-3">
@@ -130,7 +136,7 @@
                     <div class="card mb-3">
                         <div class="card-header"><h4>Security</h4></div>
                         <div class="card-body">
-                            <form action="{{route('update-user-password',$user)}}" method="POST">
+                            <form action="{{route('update-agency-password',$user)}}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="row mb-3">
@@ -182,5 +188,4 @@
             </div>
         </div>
     </div>
-
 @endsection

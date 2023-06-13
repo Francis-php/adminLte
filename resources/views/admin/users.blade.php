@@ -1,5 +1,11 @@
 @extends('adminlte::page')
-
+@section('usermenu_body')
+    <a class="btn btn-default btn-flat float-right  btn-block "
+       href="{{route('profile')}}" >
+        <i class="fas fa-fw fa-user"></i>
+        Profile
+    </a>
+@endsection
 @section('title', 'Dashboard')
 @section('plugins.Datatables', true)
 @section('content')
@@ -12,6 +18,11 @@
                         @if(session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
+                            </div>
+                        @endif
+                        @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{session('error')}}
                             </div>
                         @endif
                         <div class="table-responsive">

@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 
 class VerifyEmailNotification extends Notification
 {
@@ -34,11 +35,18 @@ class VerifyEmailNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $verificationUrl= $this->verficationUrl($notifiable);
+        $verificationUrl = URL::signedRoute(
+            'verification.verify',
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
+        );
         return (new MailMessage)
-                    ->subject('Verify Your Email')
-                    ->line('Please click the button bellow to verify your email address.')
-                    ->action('Verify Email', $verificationUrl)
+                    ->subject('Verify Your Email Address here!')
+                    ->line('Please verify your email address to get access to your account.')
+                    ->line('Thank you !')
+                    ->action('Verify Email Now', $verificationUrl)
                     ->line('If you did not create an account, no further action is required.');
     }
 

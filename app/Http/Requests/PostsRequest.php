@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Gender;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
-class AuthenticateUserRequest extends FormRequest
+class PostsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +21,6 @@ class AuthenticateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return ['email'=> 'required', 'password'=> 'required'];
+        return ['title' => 'required', 'description' => 'required'];
     }
 }

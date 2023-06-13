@@ -4,28 +4,25 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthAdmin
+class AuthAgency
 {
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure(Request): (Response) $next
-     * @return Response
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user =$request->user();
+        $user= $request->user();
 
         if ($user->type===1) {
             return redirect('/user');
         }
 
-        if($user->type === 3) {
-            return redirect('/agency');
+        if($user->type === 2) {
+            return redirect('/home');
         }
         return $next($request);
     }

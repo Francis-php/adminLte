@@ -1,5 +1,11 @@
 @extends('adminlte::page')
-
+@section('usermenu_body')
+    <a class="btn btn-default btn-flat float-right  btn-block "
+       href="{{route('profile')}}" >
+        <i class="fas fa-fw fa-user"></i>
+        Profile
+    </a>
+@endsection
 @section('content')
     <div class="row justify-content-center">
         <div class="col-5">
@@ -83,9 +89,9 @@
                         <div class="form-group">
                             <label for="gender">Gender:</label>
                             <select id="gender" name="gender" class="form-control @error('gender') is-invalid @enderror">
-                                <option value="male" {{ $user->gender === 'male' ? 'selected' : '' }}>Male</option>
-                                <option value="female" {{ $user->gender === 'female' ? 'selected' : '' }}>Female</option>
-                                <option value="other" {{ $user->gender ==='other' ? 'selected' : '' }}>Other</option>
+                                @foreach($gender as $option)
+                                    <option value="{{$option->name}}" {{$user->gender === $option->name ? 'selected' : ''}}>{{$option->name}}</option>
+                                @endforeach
                             </select>
                             @error('gender')
                             <div class="text-danger">{{$message}}</div>

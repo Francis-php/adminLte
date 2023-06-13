@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmailRequest;
@@ -35,7 +35,6 @@ class CredentialController extends Controller
         try {
             PasswordResetService::resetPassword($request->validated());
             return redirect()->route('login')->with('status', 'Password Updated');
-
         } catch (Exception $exception) {
             return back()->with('error', $exception->getMessage());
         }

@@ -1,5 +1,16 @@
-@extends('layouts.user')
-
+@extends('layouts.agency')
+{{--@section('usermenu_body')--}}
+{{--    <a class="btn btn-default btn-flat float-right  btn-block "--}}
+{{--       href="{{route('agency.profile')}}" >--}}
+{{--        <i class="fas fa-fw fa-user"></i>--}}
+{{--        Profile--}}
+{{--    </a>--}}
+{{--    <a class="btn btn-default btn-flat float-right  btn-block "--}}
+{{--       href="{{route('create-post')}}" >--}}
+{{--        <i class="fas fa-fw fa-user"></i>--}}
+{{--        Create Post--}}
+{{--    </a>--}}
+{{--@endsection--}}
 @section('content')
     <div class="container">
         <h3>Posts</h3>
@@ -30,18 +41,12 @@
                                 @endforeach
                             </div><br>
                             <div class="d-flex">
-                                @if($user->bookings()->where('post_id', $post->id)->exists())
-                                    <form action="{{route('cancel-application', $post->id)}}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">Cancel application</button>
-                                    </form>
-                                @else
-                                    <form action="{{route('apply-post', $post->id)}}" method="POST">
-                                        @csrf
-                                        <button class="btn btn-success" type="submit">Apply</button>
-                                    </form>
-                                @endif
+                                <a href="{{route('edit-post',$post->id)}}" class="btn btn-primary mr-2">Edit</a>
+                                <form action="{{route('delete-post',$post->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -49,4 +54,8 @@
             @endforeach
         </div>
     </div>
+
 @endsection
+
+
+

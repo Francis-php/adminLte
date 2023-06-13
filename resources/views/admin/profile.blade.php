@@ -1,7 +1,12 @@
 @extends('adminlte::page')
-
+@section('usermenu_body')
+    <a class="btn btn-default btn-flat float-right  btn-block "
+       href="{{route('profile')}}" >
+        <i class="fas fa-fw fa-user"></i>
+        Profile
+    </a>
+@endsection
 @section('content')
-
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -19,6 +24,7 @@
                     </ol>
                 </div>
             </div>
+
             <div class="row justify-content-center">
                 <div class="col-12 text-center">
                     @if(session('success'))
@@ -35,6 +41,7 @@
             </div>
         </div>
     </section>
+
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -51,6 +58,7 @@
                         <p class="text-muted text-center">{{$user->role->type}}</p>
                     </div>
                 </div>
+
                 <div class="col-md-9">
                     <div class="card">
                         <div class="card-header p-2">
@@ -111,11 +119,9 @@
                                         <div class="form-group row">
                                             <label for="gender">Gender:</label>
                                             <select id="gender" name="gender" class="form-control @error('type') is-invalid @enderror">
-
-                                                    <option value="male" {{ $user->gender === 'male' ? 'selected' : '' }}>Male</option>
-                                                    <option value="female" {{ $user->gender === 'female' ? 'selected' : '' }}>Female</option>
-                                                    <option value="other" {{ $user->gender ==='other' ? 'selected' : '' }}>Other</option>
-
+                                                @foreach($gender as $option)
+                                                    <option value="{{$option->name}}" {{$user->gender === $option->name ? 'selected' : ''}}>{{$option->name}}</option>
+                                                @endforeach
                                             </select>
                                             @error('gender')
                                             <div class="text-danger">{{$message}}</div>
@@ -196,9 +202,10 @@
             </div>
         </div>
     </section>
-    @push('js')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="{{ asset('js/image-upload.js') }}"></script>
-    @endpush
 
 @endsection
+
+@push('js')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/image-upload.js') }}"></script>
+@endpush

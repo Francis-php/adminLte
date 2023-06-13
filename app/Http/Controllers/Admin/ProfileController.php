@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Gender;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditPasswordRequest;
 use App\Http\Requests\EditProfileRequest;
@@ -21,7 +22,9 @@ class ProfileController extends Controller
     public function showInfo()
     {
         $user = Auth::user();
-        return view('admin.profile', compact('user'));
+        $gender = Gender::cases();
+
+        return view('admin.profile', compact(['user','gender']));
     }
 
     public function updateInfo(EditProfileRequest $request, User $user): RedirectResponse
@@ -35,7 +38,6 @@ class ProfileController extends Controller
 
             $user->update($request->validated());
             return back()->with('success', 'Information Updated');
-
         }catch(Exception $exception){
             return back()->with('error', $exception->getMessage());
         }
@@ -46,7 +48,6 @@ class ProfileController extends Controller
         try {
             $this->uploadProfilePhoto($request->file('image'),$user);
             return back()->with('success', 'Profile Picture Updated');
-
         }catch(Exception $exception){
             return back()->with('error', $exception->getMessage());
         }
@@ -57,7 +58,6 @@ class ProfileController extends Controller
         try {
             $this->deleteProfilePhoto($user);
             return back()->with('success', 'Success');
-
         }catch (Exception $exception){
             return back()->with('error', $exception->getMessage());
         }
@@ -68,7 +68,6 @@ class ProfileController extends Controller
         try {
             $user->update(['password' => Hash::make($request->safe()->only(['password'])['password'])]);
             return back()->with('success', 'Success');
-
         }catch (Exception $exception){
             return back()->with('error', $exception->getMessage());
         }

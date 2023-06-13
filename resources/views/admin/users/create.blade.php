@@ -1,7 +1,16 @@
 @extends('adminlte::page')
-
+@section('usermenu_body')
+    <a class="btn btn-default btn-flat float-right  btn-block "
+       href="{{route('profile')}}" >
+        <i class="fas fa-fw fa-user"></i>
+        Profile
+    </a>
+@endsection
 @section('content')
     <div class="row justify-content-center">
+        @if(session('error'))
+            <div class="text-danger">{{$message}}</div>
+        @endif
         <div class="col-5">
             <br>
             <div class="card card-primary">
@@ -33,9 +42,9 @@
                         <div class="form-group row">
                             <label for="gender">Gender:</label>
                             <select id="gender" name="gender" class="form-control @error('gender') is-invalid @enderror">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
+                                @foreach($gender as $option)
+                                    <option value="{{$option->name}}">{{$option->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group row">
@@ -61,8 +70,9 @@
                         <div class="form-group row">
                             <label for="role">Role:</label>
                             <select id="role" name="type" class="form-control @error('type') is-invalid @enderror">
-                                <option value="2">Admin</option>
-                                <option value="1">User</option>
+                                @foreach($roles as $role)
+                                    <option value="{{$role->id}}">{{$role->type}}</option>
+                                @endforeach
                             </select>
                             @error('type')
                             <br>

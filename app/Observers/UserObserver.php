@@ -38,7 +38,6 @@ class UserObserver
     {
         //
     }
-
     /**
      * Handle the User "force deleted" event.
      */

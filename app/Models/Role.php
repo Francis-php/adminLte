@@ -15,8 +15,10 @@ class Role extends Model
 
     use HasFactory;
 
-    protected $table='role';
-    protected $fillable=[
+    protected $table = 'role';
+
+    public $timestamps = false;
+    protected $fillable = [
         'type'
     ];
     public function users(): HasMany
