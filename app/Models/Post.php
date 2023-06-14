@@ -15,7 +15,11 @@ class Post extends Model
 
     protected $fillable=[
         'title',
-        'description'
+        'description',
+        'price',
+        'start_date',
+        'tickets',
+        'end_date'
     ];
 
     public function user(): BelongsTo
@@ -32,7 +36,8 @@ class Post extends Model
     {
         return $this->belongsToMany(User::class, 'bookings')
             ->withPivot([
-                ''
+                'cost',
+                'tickets'
             ]);
     }
 }

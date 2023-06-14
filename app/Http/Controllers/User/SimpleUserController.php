@@ -6,7 +6,9 @@ use App\Enums\Gender;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class SimpleUserController extends Controller
 {
@@ -14,6 +16,7 @@ class SimpleUserController extends Controller
     {
         $user = Auth::user();
         $posts = Post::with('images','user')->get();
+
         return view('user.user', compact('posts', 'user'));
     }
 
@@ -24,9 +27,10 @@ class SimpleUserController extends Controller
         return view('user.profile', compact(['user', 'gender']));
     }
 
-    public function applyPost(Post $post): RedirectResponse
+    public function applyPost(Request $request, Post $post): RedirectResponse
     {
-        Auth::user()->bookings()->attach($post->id, ['created_at' => now(), 'updated_at' => now()]);
+        $cost= $request->input('tickets') * $post->price;
+        Auth::user()->bookings()->attach($post->id, ['created_at' => now(), 'updated_at' => now(), 'cost' => $cost, 'tickets' => $request->input('tickets')]);
 
         return back()->with('success', 'Booking reserved');
     }

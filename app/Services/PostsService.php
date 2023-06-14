@@ -9,7 +9,7 @@ class PostsService
     public static function storePost($request): void
     {
         $user = Auth::user();
-        $post = $user->posts()->create($request->only('title', 'description'));
+        $post = $user->posts()->create($request->only('title', 'description','price', 'start_date', 'end_date', 'tickets'));
         $images = $request->file('images');
 
         if($images){

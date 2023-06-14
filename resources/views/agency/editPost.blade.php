@@ -1,15 +1,10 @@
-@extends('adminlte::page')
-@section('usermenu_body')
-    <a class="btn btn-default btn-flat float-right  btn-block "
-       href="{{route('agency.profile')}}" >
-        <i class="fas fa-fw fa-user"></i>
-        Profile
-    </a>
-@endsection
+@extends('layouts.agency')
+
 @section('content')
 
     <div class="container">
         <h3>Update Post</h3>
+        <br>
         <form action="{{route('edit-post-information', $post->id)}}" method="POST">
             @csrf
             @method('PUT')
@@ -41,6 +36,38 @@
                 @enderror
             </div>
             <br>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" id="price" value="{{$post->price}}">
+                @error('price')
+                <div class="text-danger">{{$message}}</div>
+                @enderror
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="tickets">Tickets</label>
+                <input type="text" class="form-control @error('tickets') is-invalid @enderror" name="tickets" id="tickets" value="{{$post->tickets}}">
+                @error('tickets')
+                <div class="text-danger">{{$message}}</div>
+                @enderror
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control @error('start_date') is-invalid @enderror" name="start_date" id="start_date" value="{{$post->start_date}}">
+                @error('start_date')
+                <div class="text-danger">{{$message}}</div>
+                @enderror
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form-control @error('end_date') is-invalid @enderror" name="end_date" id="end_date" value="{{$post->end_date}}">
+                @error('end_date')
+                <div class="text-danger">{{$message}}</div>
+                @enderror
+            </div>
+            <br>
             <button type="submit" class="btn btn-primary">Update Post</button>
         </form>
         <br>
@@ -54,6 +81,7 @@
                 <div class="text-danger">{{$message}}</div>
                 @enderror
             </div>
+            <br>
             <button type="submit" class="btn btn-primary">Add Image</button>
         </form>
         <br>

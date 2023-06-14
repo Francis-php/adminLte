@@ -1,11 +1,11 @@
-@extends('adminlte::page')
-@section('usermenu_body')
-    <a class="btn btn-default btn-flat float-right  btn-block "
-       href="{{route('agency.profile')}}" >
-        <i class="fas fa-fw fa-user"></i>
-        Profile
-    </a>
-@endsection
+@extends('layouts.agency')
+{{--@section('usermenu_body')--}}
+{{--    <a class="btn btn-default btn-flat float-right  btn-block "--}}
+{{--       href="{{route('agency.profile')}}" >--}}
+{{--        <i class="fas fa-fw fa-user"></i>--}}
+{{--        Profile--}}
+{{--    </a>--}}
+{{--@endsection--}}
 @section('content')
 
     <div class="container">

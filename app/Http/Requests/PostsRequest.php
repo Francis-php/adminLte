@@ -21,6 +21,6 @@ class PostsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return ['title' => 'required', 'description' => 'required'];
+        return ['title' => 'required', 'description' => 'required', 'price' => 'required', 'start_date' => 'required', 'tickets' => 'required', 'end_date' => 'required'];
     }
 }

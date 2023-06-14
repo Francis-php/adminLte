@@ -1,11 +1,5 @@
-@extends('adminlte::page')
-@section('usermenu_body')
-    <a class="btn btn-default btn-flat float-right  btn-block "
-       href="{{route('agency.profile')}}" >
-        <i class="fas fa-fw fa-user"></i>
-        Profile
-    </a>
-@endsection
+@extends('layouts.agency')
+
 @section('content')
 
     <div class="container">
@@ -40,6 +34,34 @@
                         <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="4"></textarea>
                         @error('description')
                         <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="text" class="form-control @error('price') is-invalid @enderror" id="price" name="price">
+                        @error('price')
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="tickets" class="form-label">Tickets</label>
+                        <input type="text" class="form-control @error('tickets') is-invalid @enderror" id="tickets" name="tickets">
+                        @error('tickets')
+                        <div class="text-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Start Date</label>
+                        <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date">
+                        @error('start_date')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_date" class="form-label">End Date</label>
+                        <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date">
+                        @error('end_date')
+                        <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-3">

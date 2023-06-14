@@ -84,6 +84,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function bookings(): BelongsToMany
     {
-        return $this->belongsToMany(Post::class, 'bookings');
+        return $this->belongsToMany(Post::class, 'bookings')
+            ->withPivot([
+            'cost',
+            'tickets'
+        ]);
     }
 }
