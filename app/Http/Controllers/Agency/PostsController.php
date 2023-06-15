@@ -21,7 +21,7 @@ class PostsController extends Controller
             PostsService::storePost($request);
             return redirect()->route('agency.main_page')->with('success', 'New Post Created');
         }catch (Exception $exception){
-            return back()->with('error', $exception);
+            return back()->with('error', $exception->getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ class PostsController extends Controller
             $post->update($request->all());
             return back()->with('success', 'Post Updated');
         }catch (Exception $exception){
-            return back()->with('error', $exception);
+            return back()->with('error', $exception->getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ class PostsController extends Controller
             $post->delete();
             return back()->with('success', 'Post deleted !');
         }catch (Exception $exception){
-            return back()->with('error', $exception);
+            return back()->with('error', $exception->getMessage());
         }
     }
 
@@ -58,10 +58,9 @@ class PostsController extends Controller
         try {
             Storage::disk('public')->delete('images/'.$image->user_id.'/post/'.$image->post_id.'/'.$image->hash_name);
             $image->delete();
-
             return back()->with('success', 'Image deleted!');
         }catch (Exception $exception){
-            return back()->with('error', $exception);
+            return back()->with('error', $exception->getMessage());
         }
 
     }
@@ -72,7 +71,7 @@ class PostsController extends Controller
             PostsService::addImage($request->validated(), $post);
             return back()->with('success', 'Image added successfully');
         }catch (Exception $exception){
-            return back()->with('error', $exception);
+            return back()->with('error', $exception->getMessage());
         }
     }
 }

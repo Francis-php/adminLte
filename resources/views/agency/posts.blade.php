@@ -52,14 +52,14 @@
                     </div>
                     <div class="mb-3">
                         <label for="start_date" class="form-label">Start Date</label>
-                        <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date">
+                        <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" required min="{{date('Y-m-d')}}">
                         @error('start_date')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label for="end_date" class="form-label">End Date</label>
-                        <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date">
+                        <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date" required min="{{date('Y-m-d')}}">
                         @error('end_date')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
