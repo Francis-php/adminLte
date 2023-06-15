@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Enums\Gender;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\EditPasswordRequest;
 use App\Http\Requests\EditProfileRequest;
 use App\Http\Requests\ImageRequest;

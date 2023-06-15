@@ -9,20 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AgencyController extends Controller
 {
-    public function showCreator()
-    {
-        return view('agency.posts');
-    }
 
-    public function showProfile()
+    public function show()
     {
         $user = Auth::user();
         $gender = Gender::cases();
         return view('agency.profile', compact('user', 'gender'));
-    }
-
-    public function editPost(Post $post)
-    {
-        return view('agency.editPost',compact('post'));
     }
 }

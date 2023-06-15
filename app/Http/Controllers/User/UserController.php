@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use PHPUnit\Exception;
 
 
-class SimpleUserController extends Controller
+class UserController extends Controller
 {
     public function showPosts()
     {
@@ -32,10 +32,10 @@ class SimpleUserController extends Controller
 
     public function applyPost(ApplyPostRequest $request, Post $post): RedirectResponse
     {
-        $cost= $request->input('tickets') * $post->price;
+        $cost= $request->input('tickets.'.$post->id) * $post->price;
 
         try {
-            Auth::user()->bookings()->attach($post->id, ['created_at' => now(), 'updated_at' => now(), 'cost' => $cost, 'tickets' => $request->input('tickets')]);
+            Auth::user()->bookings()->attach($post->id, ['created_at' => now(), 'updated_at' => now(), 'cost' => $cost, 'tickets' => $request->input('tickets.'.$post->id)]);
             return back()->with('success', 'Booking reserved');
         }catch (Exception $exception){
             return back()->with('error', $exception->getMessage());

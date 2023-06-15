@@ -1,6 +1,14 @@
-@extends('layouts.user')
+@extends('adminlte::page')
+@section('usermenu_body')
+    <a class="btn btn-default btn-flat float-right  btn-block "
+       href="{{route('profile')}}" >
+        <i class="fas fa-fw fa-user"></i>
+        Profile
+    </a>
+@endsection
 
 @section('content')
+
     <div class="container">
         <h3>Posts</h3>
         <div class="col-12 text-center">
@@ -34,29 +42,6 @@
                             <div class="d-flex justify-content-between">
                                 <p class="card-text">Start date : {{$post->start_date}} </p>
                                 <p class="card-text">End date: {{$post->end_date}} </p>
-                            </div><br>
-                            <div class="d-flex">
-                                @if($user->bookings()->where('post_id', $post->id)->exists())
-                                    <form action="{{route('cancel-application', $post->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to cancel the application? This action cannot be undone.');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <p>Reserved tickets: {{$user->bookings()->where('post_id', $post->id)->first()->pivot->tickets}}</p>
-                                        <p>Cost: {{$user->bookings()->where('post_id', $post->id)->first()->pivot->cost}} $</p>
-                                        <button class="btn btn-danger" type="submit">Cancel application</button>
-                                    </form>
-                                @else
-                                    <form action="{{route('apply-post', $post->id)}}" method="POST">
-                                        @csrf
-                                        <label for="tickets">Number of Tickets : </label>
-                                        <input type="text" class="form-control @error('tickets.'.$post->id) is-invalid @enderror" name="tickets[{{$post->id}}]" id="tickets">
-                                        @error('tickets.'.$post->id)
-                                        <div class="text-danger">{{$message}}</div>
-                                        @enderror
-                                        <br>
-                                        <button class="btn btn-success" type="submit">Apply</button>
-                                    </form>
-
-                                @endif
                             </div>
                         </div>
                     </div>

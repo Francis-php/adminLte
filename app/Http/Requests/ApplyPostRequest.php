@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Route;
+
 
 class ApplyPostRequest extends FormRequest
 {
@@ -23,9 +23,9 @@ class ApplyPostRequest extends FormRequest
      */
     public function rules(): array
     {
-
-        $post = Post::find($this->route('post'));
+        $post = $this->route('post');
         $availableTickets= $post->tickets - $post->users()->sum('tickets');
-        return ['tickets' => ['required', 'integer', 'between:1,' . $availableTickets]];
+
+        return ['tickets.'.$post->id => ['required', 'integer', 'between:1,' . $availableTickets]];
     }
 }

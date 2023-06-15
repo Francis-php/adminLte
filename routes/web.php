@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AdminPostController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Agency\AgencyController;
 use App\Http\Controllers\Agency\PostsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\Auth\CredentialController;
 use App\Http\Controllers\User\Auth\LoginController;
 use App\Http\Controllers\User\Auth\RegisterController;
-use App\Http\Controllers\User\SimpleUserController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,42 +34,46 @@ Route::middleware('guest')->group(function (){
 });
 
 Route::middleware(['auth', 'verified', 'auth.admin'])->group(function () {
-    Route::get('home', [UserController::class, 'index'])->name('home');
-    Route::resource('users',UserController::class)->except('show');
-    Route::put('users/{user}/image', [UserController::class, 'updatePicture'])->name('updatePicUser');
-    Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
+    Route::get('home', [UsersController::class, 'index'])->name('home');
+    Route::resource('users',UsersController::class)->except('show');
+    Route::put('users/{user}/image', [UsersController::class, 'updatePicture'])->name('updatePicUser');
+    Route::get('get-users', [UsersController::class, 'getUsers'])->name('get-users');
     Route::get('admin/settings', [ProfileController::class, 'showInfo'])->name('profile');
     Route::put('admin/settings/store/{user}', [ProfileController::class, 'updateInfo'])->name('updateInfo');
     Route::put('admin/settings/store/image/{user}', [ProfileController::class, 'updatePicture'])->name('updatePic');
     Route::put('/admin/settings/delete/{user}', [ProfileController::class,'deletePicture'])->name('deletePic');
     Route::put('/admin/password/store/{user}', [ProfileController::class, 'updatePass'])->name('updatePass');
+    Route::get('/posts', [AdminPostController::class, 'read'])->name('admin-show-posts');
 });
 
 Route::middleware(['auth', 'verified', 'auth.user'])->group(callback: function () {
-    Route::get('/user', [SimpleUserController::class,'showPosts'])->name('user.show');
-    Route::get('/user/profile', [SimpleUserController::class, 'showProfile'])->name('user.profile');
+    Route::get('/user', [UserController::class,'showPosts'])->name('user.show');
+    Route::get('/user/profile', [UserController::class, 'showProfile'])->name('user.profile');
     Route::put('/user/profile/store/information/{user}', [ProfileController::class, 'updateInfo'])->name('update-user-information');
     Route::put('/user/profile/store/image/{user}', [ProfileController::class, 'updatePicture'])->name('update-user-picture');
     Route::put('/user/profile/delete/image/{user}', [ProfileController::class,'deletePicture'])->name('delete-user-picture');
     Route::put('/user/profile/store/password/{user}', [ProfileController::class, 'updatePass'])->name('update-user-password');
-    Route::post('/user/post/apply/{post}', [SimpleUserController::class, 'applyPost'])->name('apply-post');
-    Route::delete('/user/post/remove/{post}', [SimpleUserController::class, 'cancelApplication'])->name('cancel-application');
+    Route::post('/user/post/apply/{post}', [UserController::class, 'applyPost'])->name('apply-post');
+    Route::delete('/user/post/remove/{post}', [UserController::class, 'cancelApplication'])->name('cancel-application');
 });
 
 Route::middleware(['auth', 'verified', 'auth.agency'])->group(function (){
-    Route::post('/posts/store', [PostsController::class, 'create'])->name('store-post');
-    Route::get('/agency', [PostsController::class, 'read'])->name('agency.main_page');
-    Route::put('/agency/post/edit/information/{post}', [PostsController::class, 'update'])->name('edit-post-information');
-    Route::put('/agency/post/edit/add-image/{post}', [PostsController::class, 'addPostImage'])->name('add-post-image');
-    Route::delete('/agency/post/delete/{post}', [PostsController::class, 'delete'])->name('delete-post');
-    Route::delete('/agency/post/delete/image/{image}', [PostsController::class, 'deleteImage'])->name('delete-post-image');
-    Route::get('/agency/profile', [AgencyController::class, 'showProfile'])->name('agency.profile');
-    Route::get('/posts/create', [AgencyController::class, 'showCreator'])->name('create-post');
-    Route::get('/agency/post/edit/{post}', [AgencyController::class, 'editPost'])->name('edit-post');
+    Route::get('/agency/profile', [AgencyController::class, 'show'])->name('agency.profile');
     Route::put('/agency/profile/store/information/{user}', [ProfileController::class, 'updateInfo'])->name('update-agency-information');
     Route::put('/agency/profile/store/image/{user}', [ProfileController::class, 'updatePicture'])->name('update-agency-picture');
     Route::put('/agency/profile/delete/image/{user}', [ProfileController::class,'deletePicture'])->name('delete-agency-picture');
     Route::put('/agency/profile/store/password/{user}', [ProfileController::class, 'updatePass'])->name('update-agency-password');
+    Route::get('/agency', [PostsController::class, 'read'])->name('agency.main_page');
+    Route::get('/posts/create', [PostsController::class, 'create'])->name('create-post');
+    Route::post('/posts/store', [PostsController::class, 'store'])->name('store-post');
+    Route::get('/agency/post/edit/{post}', [PostsController::class, 'showPost'])->name('edit-post');
+    Route::put('/agency/post/edit/information/{post}', [PostsController::class, 'update'])->name('edit-post-information');
+    Route::put('/agency/post/edit/add-image/{post}', [PostsController::class, 'addPostImage'])->name('add-post-image');
+    Route::delete('/agency/post/delete/{post}', [PostsController::class, 'delete'])->name('delete-post');
+    Route::delete('/agency/post/delete/image/{image}', [PostsController::class, 'deleteImage'])->name('delete-post-image');
+    Route::get('/agency/posts/applications', [PostsController::class, 'showApplications'])->name('show-applications');
+    Route::get('applications-data', [PostsController::class, 'getApplicationData'])->name('your-data-route');
+    Route::delete('/agency/post/application/delete/{booking}', [PostsController::class, 'deleteApplication'])->name('delete-application');
 });
 
 Route::middleware('auth')->group(callback: function (){

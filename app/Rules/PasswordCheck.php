@@ -25,7 +25,6 @@ class PasswordCheck implements  ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-
         $value=strtolower($value);
         $email=strstr($this->formData['email'],'@',true);
         $fullNameEmail=strtolower($this->formData['first_name'])." ".strtolower($email). " ".strtolower($this->formData['last_name']);

@@ -310,6 +310,10 @@
                 'text' => 'Users',
                 'url' => 'home',
             ],
+            [
+                'text' => 'Posts',
+                'url' => 'posts',
+            ],
         ],
 
         /*

@@ -162,6 +162,9 @@
                                     <form action="{{route('updatePass',$user->id)}}" class="form-horizontal" method="POST">
                                         @csrf
                                         @method('PUT')
+                                        <input type="hidden" name="first_name" value="{{$user->first_name}}">
+                                        <input type="hidden" name="last_name" value="{{$user->last_name}}">
+                                        <input type="hidden" name="email" value="{{$user->email}}">
                                         <div class="form-group row">
                                             <label for="oldPass">Old Password:</label>
                                             <input id="oldPass" type="password" name="oldPass"
@@ -187,9 +190,7 @@
                                             <div class="text-danger">{{$message}}</div>
                                             @enderror
                                         </div>
-                                        <input type="hidden" value="{{$user->first_name}}">
-                                        <input type="hidden" value="{{$user->last_name}}">
-                                        <input type="hidden" value="{{$user->email}}">
+
                                         <div class="text-center mt-5">
                                             <button type="submit" class="btn btn-danger">Change Password</button>
                                         </div>
