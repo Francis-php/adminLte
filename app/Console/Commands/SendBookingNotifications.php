@@ -3,9 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Post;
-use App\Models\User;
 use App\Notifications\BookingReminderNotification;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class SendBookingNotifications extends Command
