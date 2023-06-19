@@ -36,15 +36,15 @@
                                 </thead>
                                 <tbody>
                                 @foreach($users as $user)
-                                    @foreach($user->bookings as $booking)
+
                                         <tr>
                                             <td>{{ $user->name }}</td>
-                                            <td>{{ $booking->pivot->tickets }}</td>
-                                            <td>{{ $booking->pivot->cost }}</td>
-                                            <td>{{$booking->price}}</td>
-                                            <td>{{ $booking->title }}</td>
-                                            <td>{{ $booking->start_date }}</td>
-                                            <td>{{ $booking->end_date }}</td>
+                                            <td>{{ $user->pivot->tickets }}</td>
+                                            <td>{{ $user->pivot->cost }}</td>
+                                            <td>{{$post->price}}</td>
+                                            <td>{{ $post->title }}</td>
+                                            <td>{{ $post->start_date }}</td>
+                                            <td>{{ $post->end_date }}</td>
                                             <td><a class="btn btn-danger" href="#" onclick="document.getElementById().submit();">Cancel</a>
                                                 <form id="cancel-form-{{$user->id}}" action="{{route('delete-application',$user->id)}} " method="POST" style="display: none;">
                                                     @csrf
@@ -52,7 +52,7 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                    @endforeach
+
                                 @endforeach
                                 </tbody>
                             </table>

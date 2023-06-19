@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Yajra\DataTables\Html\Editor\HasEvents;
+
 
 /**
  * @property mixed $image
@@ -91,15 +91,4 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
-    public function upcomingBookings(): BelongsToMany
-    {
-        $nextDay = now()->addDay()->format('Y-m-d');
-
-        return $this->belongsToMany(Post::class, 'bookings')
-            ->where('start_date', $nextDay)
-            ->withPivot([
-                'cost',
-                'tickets',
-            ]);
-    }
 }

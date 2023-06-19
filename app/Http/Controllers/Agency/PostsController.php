@@ -7,11 +7,8 @@ use App\Http\Requests\ImageRequest;
 use App\Http\Requests\PostsRequest;
 use App\Models\Media;
 use App\Models\Post;
-use App\Models\User;
 use App\Services\PostsService;
-use App\Services\RenderPostsTableService;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -90,10 +87,8 @@ class PostsController extends Controller
 
     public function showApplications(Post $post)
     {
+        $users = $post->users;
 
-        $users = $post->users()->with(['bookings' => function ($query) use ($post) {
-            $query->where('post_id', $post->id);
-        }])->get();
         return view('agency.applications', compact('post', 'users'));
     }
 
@@ -107,4 +102,6 @@ class PostsController extends Controller
             return back()->with('error', $exception->getMessage());
         }
     }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Post;
 use App\Models\User;
 use App\Notifications\BookingReminderNotification;
 use Carbon\Carbon;
@@ -26,12 +27,11 @@ class SendBookingNotifications extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $date = Carbon::now()->addDay();
-        $users = User::with('upcomingBookings')->get();
-        foreach ($users as $user) {
-            foreach ($user->upcomingBookings as $booking) {
+        $upcomingBookings = Post::tomorrowTrips()->get();
+        foreach ($upcomingBookings as $booking) {
+            foreach ($booking->users as $user) {
                 $user->notify(new BookingReminderNotification($booking));
             }
         }
