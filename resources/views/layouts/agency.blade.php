@@ -58,9 +58,6 @@
                     <a class="nav-link" href="{{ route('agency.main_page') }}">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('show-applications')}}">Applications</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ route('create-post') }}">New Post</a>
                 </li>
                 <li class="nav-item">

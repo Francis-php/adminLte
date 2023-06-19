@@ -71,8 +71,11 @@ Route::middleware(['auth', 'verified', 'auth.agency'])->group(function (){
     Route::put('/agency/post/edit/add-image/{post}', [PostsController::class, 'addPostImage'])->name('add-post-image');
     Route::delete('/agency/post/delete/{post}', [PostsController::class, 'delete'])->name('delete-post');
     Route::delete('/agency/post/delete/image/{image}', [PostsController::class, 'deleteImage'])->name('delete-post-image');
-    Route::get('/agency/posts/applications', [PostsController::class, 'showApplications'])->name('show-applications');
-    Route::get('applications-data', [PostsController::class, 'getApplicationData'])->name('your-data-route');
+
+
+    Route::get('/agency/posts/{post}/applications', [PostsController::class, 'showApplications'])->name('show-applications');
+
+
     Route::delete('/agency/post/application/delete/{booking}', [PostsController::class, 'deleteApplication'])->name('delete-application');
 });
 

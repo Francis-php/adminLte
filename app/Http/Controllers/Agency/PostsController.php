@@ -5,22 +5,19 @@ namespace App\Http\Controllers\Agency;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImageRequest;
 use App\Http\Requests\PostsRequest;
-use App\Models\Booking;
 use App\Models\Media;
 use App\Models\Post;
+use App\Models\User;
 use App\Services\PostsService;
 use App\Services\RenderPostsTableService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\DataTables;
 
 class PostsController extends Controller
 {
-
     public function create()
     {
         return view('agency.posts');
@@ -91,18 +88,17 @@ class PostsController extends Controller
         }
     }
 
-    public function showApplications()
+    public function showApplications(Post $post)
     {
-        return view('agency.applications');
+
+        $users = $post->users()->with(['bookings' => function ($query) use ($post) {
+            $query->where('post_id', $post->id);
+        }])->get();
+        return view('agency.applications', compact('post', 'users'));
     }
 
-    public function getApplicationData(): JsonResponse
-    {
-        $bookings = Booking::with('post', 'user')->get();
-        return (new RenderPostsTableService())->renderPosts($bookings);
-    }
 
-    public function deleteApplication(Booking $booking): ?RedirectResponse
+    public function deleteApplication( $booking): ?RedirectResponse
     {
         try {
             $booking->delete();

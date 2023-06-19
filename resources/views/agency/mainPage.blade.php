@@ -44,7 +44,9 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
+                                <a href="{{route('show-applications', $post->id)}}" class="btn btn-success" style="margin-left: 20px">Applications</a>
                             </div>
+
                         </div>
                     </div>
                 </div>

@@ -24,49 +24,42 @@
                             <table id="ApplicationTable" class="table table-striped " style="width: 100%">
                                 <thead>
                                 <tr>
-                                    <th>User</th>
+                                    <th>Name</th>
                                     <th>Tickets</th>
-                                    <th>Cost</th>
+                                    <th>Total Cost</th>
+                                    <th>Ticket Price</th>
                                     <th>Post title</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
+                                <tbody>
+                                @foreach($users as $user)
+                                    @foreach($user->bookings as $booking)
+                                        <tr>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $booking->pivot->tickets }}</td>
+                                            <td>{{ $booking->pivot->cost }}</td>
+                                            <td>{{$booking->price}}</td>
+                                            <td>{{ $booking->title }}</td>
+                                            <td>{{ $booking->start_date }}</td>
+                                            <td>{{ $booking->end_date }}</td>
+                                            <td><a class="btn btn-danger" href="#" onclick="document.getElementById().submit();">Cancel</a>
+                                                <form id="cancel-form-{{$user->id}}" action="{{route('delete-application',$user->id)}} " method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-
-
-    @push('js')
-            <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-            <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/datatables.min.js"></script>
-            <script>
-                $(document).ready(function () {
-                    $('#ApplicationTable').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax: "{{ route('your-data-route') }}",
-                        columns: [
-                            {data: 'user', name: 'user'},
-                            {data: 'tickets', name: 'tickets'},
-                            {data: 'cost', name: 'cost'},
-                            {data: 'post_title', name: 'post.title'},
-                            {data: 'start_date', name: 'start_date'},
-                            {data: 'end_date', name: 'end_date'},
-                            {data: 'action', name: 'action', orderable: false, searchable: false},
-                        ]
-                    });
-                });
-            </script>
-
-    @endpush
-
 @endsection
 

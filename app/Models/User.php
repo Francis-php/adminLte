@@ -90,4 +90,16 @@ class User extends Authenticatable implements MustVerifyEmail
             'tickets'
         ]);
     }
+
+    public function upcomingBookings(): BelongsToMany
+    {
+        $nextDay = now()->addDay()->format('Y-m-d');
+
+        return $this->belongsToMany(Post::class, 'bookings')
+            ->where('start_date', $nextDay)
+            ->withPivot([
+                'cost',
+                'tickets',
+            ]);
+    }
 }
