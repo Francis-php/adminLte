@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
-class PasswordResetService
+class PasswordService
 {
     public static function resetPassword($validated): string
     {

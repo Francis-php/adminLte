@@ -41,9 +41,9 @@ class Post extends Model
                 'tickets'
             ]);
     }
+
     public function scopeTomorrowTrips(Builder $query): Builder
     {
         return $query->whereDate('start_date', now()->addDay());
     }
-
 }

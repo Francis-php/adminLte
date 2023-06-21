@@ -5,6 +5,7 @@ namespace App\Models;
 
 use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -91,4 +92,8 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
+    public function scopeAgencies(Builder $query): Builder
+    {
+        return $query->where('type','=','3');
+    }
 }

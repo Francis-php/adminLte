@@ -44,6 +44,9 @@ Route::middleware(['auth', 'verified', 'auth.admin'])->group(function () {
     Route::put('/admin/settings/delete/{user}', [ProfileController::class,'deletePicture'])->name('deletePic');
     Route::put('/admin/password/store/{user}', [ProfileController::class, 'updatePass'])->name('updatePass');
     Route::get('/posts', [AdminPostController::class, 'read'])->name('admin-show-posts');
+    Route::get('/agencies', [AdminPostController::class, 'showAgencies'])->name('show-agencies');
+    Route::get('/agency/{agencyId}', [AdminPostController::class, 'showAgency'])->name('show-agency');
+
 });
 
 Route::middleware(['auth', 'verified', 'auth.user'])->group(callback: function () {
@@ -54,7 +57,9 @@ Route::middleware(['auth', 'verified', 'auth.user'])->group(callback: function (
     Route::put('/user/profile/delete/image/{user}', [ProfileController::class,'deletePicture'])->name('delete-user-picture');
     Route::put('/user/profile/store/password/{user}', [ProfileController::class, 'updatePass'])->name('update-user-password');
     Route::post('/user/post/apply/{post}', [UserController::class, 'applyPost'])->name('apply-post');
+    Route::put('/user/post/modify/{post}', [UserController::class, 'modifyReservation'])->name('modify-reservation');
     Route::delete('/user/post/remove/{post}', [UserController::class, 'cancelApplication'])->name('cancel-application');
+    Route::get('/user/reservation-history', [UserController::class, 'showReservations'])->name('reservation-history');
 });
 
 Route::middleware(['auth', 'verified', 'auth.agency'])->group(function (){
@@ -76,7 +81,7 @@ Route::middleware(['auth', 'verified', 'auth.agency'])->group(function (){
     Route::get('/agency/posts/{post}/applications', [PostsController::class, 'showApplications'])->name('show-applications');
 
 
-    Route::delete('/agency/post/application/delete/{booking}', [PostsController::class, 'deleteApplication'])->name('delete-application');
+    Route::delete('/agency/post/application/delete/{user}/{post}', [PostsController::class, 'deleteApplication'])->name('delete-application');
 });
 
 Route::middleware('auth')->group(callback: function (){

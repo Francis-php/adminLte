@@ -7,6 +7,7 @@ use App\Http\Requests\ImageRequest;
 use App\Http\Requests\PostsRequest;
 use App\Models\Media;
 use App\Models\Post;
+use App\Models\User;
 use App\Services\PostsService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -22,7 +23,7 @@ class PostsController extends Controller
 
     public function read()
     {
-        $posts =  Auth::user()->posts()->with('images')->get();
+        $posts =  Auth::user()->posts()->with('images')->get()->sortByDesc('start_date');
         return view('agency.mainPage', compact('posts'));
     }
 
@@ -88,15 +89,14 @@ class PostsController extends Controller
     public function showApplications(Post $post)
     {
         $users = $post->users;
-
         return view('agency.applications', compact('post', 'users'));
     }
 
 
-    public function deleteApplication( $booking): ?RedirectResponse
+    public function deleteApplication(User $user, Post $post): ?RedirectResponse
     {
         try {
-            $booking->delete();
+            $user->bookings()->detach($post->id);
             return back()->with('success', 'Reservation deleted successfully');
         }catch (Exception $exception){
             return back()->with('error', $exception->getMessage());

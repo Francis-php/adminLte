@@ -314,6 +314,10 @@
                 'text' => 'Posts',
                 'url' => 'posts',
             ],
+            [
+                'text' => 'Agencies',
+                'url' => 'agencies'
+            ]
         ],
 
         /*

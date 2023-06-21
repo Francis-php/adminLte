@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EmailRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Jobs\ProcessEmail;
-use App\Services\PasswordResetService;
+use App\Services\PasswordService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 
@@ -33,7 +33,7 @@ class CredentialController extends Controller
     public function reset(ResetPasswordRequest $request): RedirectResponse
     {
         try {
-            PasswordResetService::resetPassword($request->validated());
+            PasswordService::resetPassword($request->validated());
             return redirect()->route('login')->with('status', 'Password Updated');
         } catch (Exception $exception) {
             return back()->with('error', $exception->getMessage());

@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Yajra\DataTables\DataTables;
 
-class RenderUsersTableService
+class UsersService
 {
 
     public function renderUsers(): JsonResponse|RedirectResponse
@@ -31,5 +31,10 @@ class RenderUsersTableService
             $user->type = $user->role->type;
             return $user;
         });
+    }
+
+    public function renderAgencies()
+    {
+
     }
 }

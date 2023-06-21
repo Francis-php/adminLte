@@ -17,6 +17,34 @@
         </div>
         <div class="row">
             @foreach($posts as $post)
+                @if($post->start_date < now())
+                    <div class="col-md-4">
+                        <div class="card mb-3 bg-opacity-75 bg-success">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between"><h5 class="card-title">{{$post->title}}</h5> <h5>Completed</h5></div>
+                                <p class="card-text">Agency : {{$post->user->name}}</p>
+                                <p class="card-text">{{$post->description}}</p>
+                                <p class="card-text">Price : {{$post->price}} $</p>
+                                <h5>Total tickets Sold: {{$post->users()->sum('tickets')}}</h5>
+                                <h5>Total Earnings : {{$post->users()->sum('tickets') * $post->price}} $</h5>
+                                <div class="row">
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="card-text">Start date : {{$post->start_date}} </p>
+                                    <p class="card-text">End date: {{$post->end_date}} </p>
+                                </div><br>
+                                <div class="d-flex">
+                                    <form action="{{route('delete-post',$post->id)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                    <a href="{{route('show-applications', $post->id)}}" class="btn btn-success" style="margin-left: 20px">Applications</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @else
                 <div class="col-md-4">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -50,6 +78,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             @endforeach
         </div>
     </div>

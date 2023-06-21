@@ -27,10 +27,6 @@
                                     <th>Name</th>
                                     <th>Tickets</th>
                                     <th>Total Cost</th>
-                                    <th>Ticket Price</th>
-                                    <th>Post title</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -39,23 +35,30 @@
 
                                         <tr>
                                             <td>{{ $user->name }}</td>
-                                            <td>{{ $user->pivot->tickets }}</td>
-                                            <td>{{ $user->pivot->cost }}</td>
-                                            <td>{{$post->price}}</td>
-                                            <td>{{ $post->title }}</td>
-                                            <td>{{ $post->start_date }}</td>
-                                            <td>{{ $post->end_date }}</td>
-                                            <td><a class="btn btn-danger" href="#" onclick="document.getElementById().submit();">Cancel</a>
-                                                <form id="cancel-form-{{$user->id}}" action="{{route('delete-application',$user->id)}} " method="POST" style="display: none;">
+                                            <td>{{ $user->pivot->tickets}}</td>
+                                            <td>{{ $user->pivot->cost}} $</td>
+                                            <td><a class="btn btn-danger" href="#" onclick="document.getElementById('cancel-form-{{$user->id}}').submit();">Cancel</a>
+                                                <form id="cancel-form-{{$user->id}}" action="{{route('delete-application',[$user->id, $post->id])}} " method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
                                             </td>
                                         </tr>
-
                                 @endforeach
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td><h5>Title</h5> <p>{{$post->title}}</p></td>
+                                    <td><h5>Tickets Sold</h5><p>{{$post->users()->sum('tickets')}}</p></td>
+                                    <td><h5>Total earnings </h5><p>{{$post->users()->sum('tickets') * $post->price}} $</p></td>
+                                    <td><h5>Ticket Cost</h5><p>{{$post->price}} $</p></td>
+                                </tr>
+                                </tfoot>
                             </table>
+
+
+
+
                         </div>
                     </div>
                 </div>

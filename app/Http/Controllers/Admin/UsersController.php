@@ -9,7 +9,7 @@ use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\ImageRequest;
 use App\Models\Role;
 use App\Models\User;
-use App\Services\RenderUsersTableService;
+use App\Services\UsersService;
 use App\Traits\PictureTrait;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -27,7 +27,7 @@ class UsersController extends Controller
 
     public function getUsers(): JsonResponse
     {
-        return (new RenderUsersTableService)->renderUsers();
+        return (new UsersService)->renderUsers();
     }
 
     public function updatePicture(ImageRequest $request, User $user): RedirectResponse
