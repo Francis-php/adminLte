@@ -11,11 +11,18 @@ use App\Models\User;
 use App\Services\PostsService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
+    public function getAllPosts(Request $request)
+    {
+        $posts = PostsService::getAllPosts($request);
+        $agencies = User::agencies()->get();
+        return view('admin.posts', compact('posts', 'agencies', 'request'));
+    }
     public function create()
     {
         return view('agency.posts');

@@ -1,13 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Agency\AgencyController;
 use App\Http\Controllers\Agency\PostsController;
+use App\Http\Controllers\Auth\CredentialController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\User\Auth\CredentialController;
-use App\Http\Controllers\User\Auth\LoginController;
-use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::middleware('guest')->group(function (){
     Route::redirect('/', '/login');
     Route::get('/register', [RegisterController::class , 'showRegisterForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::get('/login', [LoginController::class, 'show'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
     Route::get('/password/reset', [CredentialController::class, 'show'])->name('password.request');
     Route::post('/password/email', [CredentialController::class, 'sendMail'])->name('password.email');
@@ -34,19 +35,18 @@ Route::middleware('guest')->group(function (){
 });
 
 Route::middleware(['auth', 'verified', 'auth.admin'])->group(function () {
-    Route::get('home', [UsersController::class, 'index'])->name('home');
+    Route::get('home', [UsersController::class, 'read'])->name('home');
     Route::resource('users',UsersController::class)->except('show');
     Route::put('users/{user}/image', [UsersController::class, 'updatePicture'])->name('updatePicUser');
     Route::get('get-users', [UsersController::class, 'getUsers'])->name('get-users');
-    Route::get('admin/settings', [ProfileController::class, 'showInfo'])->name('profile');
+    Route::get('admin/settings', [AdminController::class, 'showProfile'])->name('profile');
     Route::put('admin/settings/store/{user}', [ProfileController::class, 'updateInfo'])->name('updateInfo');
     Route::put('admin/settings/store/image/{user}', [ProfileController::class, 'updatePicture'])->name('updatePic');
     Route::put('/admin/settings/delete/{user}', [ProfileController::class,'deletePicture'])->name('deletePic');
     Route::put('/admin/password/store/{user}', [ProfileController::class, 'updatePass'])->name('updatePass');
-    Route::get('/posts', [AdminPostController::class, 'read'])->name('admin-show-posts');
-    Route::get('/agencies', [AdminPostController::class, 'showAgencies'])->name('show-agencies');
-    Route::get('/agency/{agencyId}', [AdminPostController::class, 'showAgency'])->name('show-agency');
-
+    Route::get('/posts', [PostsController::class, 'getAllPosts'])->name('admin-show-posts');
+    Route::get('/agencies', [AgencyController::class, 'showAgencies'])->name('show-agencies');
+    Route::get('/agency/{agencyId}', [AgencyController::class, 'showAgency'])->name('show-agency');
 });
 
 Route::middleware(['auth', 'verified', 'auth.user'])->group(callback: function () {
@@ -63,7 +63,7 @@ Route::middleware(['auth', 'verified', 'auth.user'])->group(callback: function (
 });
 
 Route::middleware(['auth', 'verified', 'auth.agency'])->group(function (){
-    Route::get('/agency/profile', [AgencyController::class, 'show'])->name('agency.profile');
+    Route::get('/agency/profile', [AgencyController::class, 'showProfile'])->name('agency.profile');
     Route::put('/agency/profile/store/information/{user}', [ProfileController::class, 'updateInfo'])->name('update-agency-information');
     Route::put('/agency/profile/store/image/{user}', [ProfileController::class, 'updatePicture'])->name('update-agency-picture');
     Route::put('/agency/profile/delete/image/{user}', [ProfileController::class,'deletePicture'])->name('delete-agency-picture');
@@ -76,11 +76,7 @@ Route::middleware(['auth', 'verified', 'auth.agency'])->group(function (){
     Route::put('/agency/post/edit/add-image/{post}', [PostsController::class, 'addPostImage'])->name('add-post-image');
     Route::delete('/agency/post/delete/{post}', [PostsController::class, 'delete'])->name('delete-post');
     Route::delete('/agency/post/delete/image/{image}', [PostsController::class, 'deleteImage'])->name('delete-post-image');
-
-
     Route::get('/agency/posts/{post}/applications', [PostsController::class, 'showApplications'])->name('show-applications');
-
-
     Route::delete('/agency/post/application/delete/{user}/{post}', [PostsController::class, 'deleteApplication'])->name('delete-application');
 });
 

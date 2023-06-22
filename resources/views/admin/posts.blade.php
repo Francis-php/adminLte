@@ -85,19 +85,22 @@
 
         <div class="col-md-3">
             <br>
-            <form action="" method="GET">
+            <form action="{{ route('admin-show-posts') }}" method="GET">
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"
+                               value="{{ $request->input('title') }}">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="start_date">Start Date</label>
-                        <input type="date" class="form-control" id="start_date" name="start_date">
+                        <input type="date" class="form-control" id="start_date" name="start_date"
+                               value="{{ $request->input('start_date') }}">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="end_date">End Date</label>
-                        <input type="date" class="form-control" id="end_date" name="end_date">
+                        <input type="date" class="form-control" id="end_date" name="end_date"
+                               value="{{ $request->input('end_date') }}">
                     </div>
                 </div>
                 <div class="form-row">
@@ -105,8 +108,10 @@
                         <label for="agency">Agency</label>
                         <select class="form-control" id="agency" name="agency">
                             <option value="">All</option>
-                            @foreach($posts->pluck('user.name', 'user.id')->unique() as $userId => $userName)
-                                <option value="{{ $userId }}">{{ $userName }}</option>
+                            @foreach($agencies as $agency)
+                                <option value="{{ $agency->id }}" {{ $request->input('agency') === (string)$agency->id ? 'selected' : '' }}>
+                                    {{ $agency->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -114,24 +119,25 @@
                         <label for="status">Status</label>
                         <select class="form-control" id="status" name="status">
                             <option value="">All</option>
-                            <option value="active">Active</option>
-                            <option value="completed">Completed</option>
+                            <option value="active" {{ $request->input('status') === 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="completed" {{ $request->input('status') === 'completed' ? 'selected' : '' }}>Completed</option>
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="sort_by">Sort By</label>
                         <select class="form-control" id="sort_by" name="sort_by">
                             <option value="">None</option>
-                            <option value="name_asc">Name (A-Z)</option>
-                            <option value="name_desc">Name (Z-A)</option>
-                            <option value="start_date_asc">Start Date (Ascending)</option>
-                            <option value="start_date_desc">Start Date (Descending)</option>
+                            <option value="name_asc" {{ $request->input('sort_by') === 'name_asc' ? 'selected' : '' }}>Name (A-Z)</option>
+                            <option value="name_desc" {{ $request->input('sort_by') === 'name_desc' ? 'selected' : '' }}>Name (Z-A)</option>
+                            <option value="start_date_asc" {{ $request->input('sort_by') === 'start_date_asc' ? 'selected' : '' }}>Start Date (Ascending)</option>
+                            <option value="start_date_desc" {{ $request->input('sort_by') === 'start_date_desc' ? 'selected' : '' }}>Start Date (Descending)</option>
                         </select>
                     </div>
                 </div>
-
                 <button class="btn btn-primary" type="submit">Filter</button>
+                <a href="{{route('admin-show-posts')}}" class="ml-2">x Clear Filters</a>
             </form>
+
             <div class="d-flex justify-content-center my-4">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">

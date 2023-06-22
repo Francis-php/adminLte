@@ -18,20 +18,11 @@ class ProfileController extends Controller
 {
     use PictureTrait;
 
-    public function showInfo()
-    {
-        $user = Auth::user();
-        $gender = Gender::cases();
-
-        return view('admin.profile', compact(['user','gender']));
-    }
-
     public function updateInfo(EditProfileRequest $request, User $user): RedirectResponse
     {
         try {
             if($request->input('email') !== $user->email){
                 $user->update([$request->validated(),$user->email_verified_at= null]);
-
                 dispatch(new ProcessEmailVerification($user))->onQueue('database');
             }
 

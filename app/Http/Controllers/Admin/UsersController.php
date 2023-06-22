@@ -20,7 +20,7 @@ class UsersController extends Controller
 {
     use PictureTrait;
 
-    public function index()
+    public function read()
     {
         return view('admin.users');
     }
@@ -52,7 +52,7 @@ class UsersController extends Controller
     {
         try {
             User::create($request->validated());
-            return redirect()->route('users.index')->with('success', 'User created successfully');
+            return redirect()->route('users.read')->with('success', 'User created successfully');
         }catch (Exception $exception){
             return back()->with('error', $exception);
         }
@@ -78,7 +78,7 @@ class UsersController extends Controller
     {
         try {
             $user->delete();
-            return redirect()->route('users.index')->with('success', 'User deleted successfully');
+            return redirect()->route('users.read')->with('success', 'User deleted successfully');
         }catch (Exception $exception){
             return back()->with('error', $exception);
         }

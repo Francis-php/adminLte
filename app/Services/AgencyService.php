@@ -1,24 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Services;
 
-use App\Http\Controllers\Controller;
-use App\Models\Post;
 use App\Models\User;
 
-class AdminPostController extends Controller
+class AgencyService
 {
 
-    public function read()
-    {
-        $posts = Post::with('images','user')
-            ->orderByDesc('start_date')
-            ->paginate(6);
-
-        return view('admin.posts', compact('posts'));
-    }
-
-    public function showAgencies()
+    public static function getAgencies()
     {
         $agencies = User::agencies()
             ->with(['posts','posts.users'])
@@ -30,10 +19,10 @@ class AdminPostController extends Controller
                 return $post->users->sum('pivot.cost');
             });
         });
-        return view('admin.agencies', compact('agencies'));
+        return $agencies;
     }
 
-    public function showAgency($agencyId)
+    public static function getAgency($agencyId)
     {
         $agency = User::with(['posts','posts.users'])
             ->withCount('posts')
@@ -42,6 +31,6 @@ class AdminPostController extends Controller
         $agency->totalEarnings = $agency->posts->sum(function ($post) {
             return $post->users->sum('pivot.cost');
         });
-        return view('admin.agency', compact('agency'));
+        return $agency;
     }
 }

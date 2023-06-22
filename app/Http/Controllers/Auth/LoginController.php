@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthenticateUserRequest;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
 
-    public function showLoginForm()
+    public function show()
     {
         return view('auth.login');
     }
